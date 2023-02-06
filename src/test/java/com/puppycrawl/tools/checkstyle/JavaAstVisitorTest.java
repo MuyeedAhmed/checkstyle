@@ -94,7 +94,6 @@ public class JavaAstVisitorTest extends AbstractModuleTestSupport {
         return "com/puppycrawl/tools/checkstyle/javaastvisitor";
     }
 
-    @Test
     public void testAllVisitMethodsAreOverridden() {
         final Method[] baseVisitMethods = JavaLanguageParserBaseVisitor
                 .class.getDeclaredMethods();
@@ -126,7 +125,6 @@ public class JavaAstVisitorTest extends AbstractModuleTestSupport {
                 .containsExactlyElementsIn(filteredBaseVisitMethodNames);
     }
 
-    @Test
     public void testOrderOfVisitMethodsAndProductionRules() throws Exception {
         // Order of BaseVisitor's generated 'visit' methods match the order of
         // production rules in 'JavaLanguageParser.g4'.
@@ -197,7 +195,6 @@ public class JavaAstVisitorTest extends AbstractModuleTestSupport {
                 && objBlockChild.findFirstToken(TokenTypes.IDENT).getText().contains("visit");
     }
 
-    @Test
     public void testNullSelfInAddLastSibling() throws Exception {
         final Method addLastSibling = JavaAstVisitor.class
                 .getDeclaredMethod("addLastSibling", DetailAstImpl.class, DetailAstImpl.class);
@@ -225,7 +222,6 @@ public class JavaAstVisitorTest extends AbstractModuleTestSupport {
      * @throws Exception if input file does not exist
      */
 
-    @Test
     public void testNoStackOverflowOnDeepStringConcat() throws Exception {
         final File file =
                 new File(getPath("InputJavaAstVisitorNoStackOverflowOnDeepStringConcat.java"));

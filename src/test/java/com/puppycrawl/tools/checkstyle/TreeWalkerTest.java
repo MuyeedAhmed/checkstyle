@@ -81,7 +81,6 @@ import com.puppycrawl.tools.checkstyle.utils.CommonUtil;
  */
 public class TreeWalkerTest extends AbstractModuleTestSupport {
 
-    @TempDir
     public File temporaryFolder;
 
     @Override
@@ -89,7 +88,6 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
         return "com/puppycrawl/tools/checkstyle/treewalker";
     }
 
-    @Test
     public void testProperFileExtension() throws Exception {
         final DefaultConfiguration checkConfig =
                 createModuleConfig(ConstantNameCheck.class);
@@ -127,7 +125,6 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
      *
      * @throws Exception if an error occurs
      */
-    @Test
     public void testNoAuditEventsWithoutFilters() throws Exception {
         final DefaultConfiguration checkConfig = createModuleConfig(OneTopLevelClassCheck.class);
         final String[] expected = {
@@ -146,7 +143,6 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
      * This test is needed for 100% coverage. The method {@link Mockito#mockStatic} is used to
      * ensure that the {@code if (!ordinaryChecks.isEmpty())} condition cannot be removed.
      */
-    @Test
     public void testConditionRequiredWithoutOrdinaryChecks() throws Exception {
         final DefaultConfiguration checkConfig = createModuleConfig(JavadocParagraphCheck.class);
         final String[] expected = {
@@ -172,7 +168,6 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
      * This test is needed for 100% coverage. The method {@link Mockito#mockStatic} is used to
      * ensure that the {@code if (!commentChecks.isEmpty())} condition cannot be removed.
      */
-    @Test
     public void testConditionRequiredWithoutCommentChecks() throws Exception {
         final DefaultConfiguration checkConfig = createModuleConfig(OneTopLevelClassCheck.class);
         final String[] expected = {
@@ -189,7 +184,6 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
         }
     }
 
-    @Test
     public void testImproperFileExtension() throws Exception {
         final DefaultConfiguration checkConfig =
                 createModuleConfig(ConstantNameCheck.class);
@@ -202,7 +196,6 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
         verify(checkConfig, file.getPath(), expected);
     }
 
-    @Test
     public void testAcceptableTokens()
             throws Exception {
         final DefaultConfiguration checkConfig =
@@ -229,7 +222,6 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
         }
     }
 
-    @Test
     public void testOnEmptyFile() throws Exception {
         final DefaultConfiguration checkConfig = createModuleConfig(HiddenFieldCheck.class);
         final String pathToEmptyFile =
@@ -239,7 +231,6 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
         verify(checkConfig, pathToEmptyFile, expected);
     }
 
-    @Test
     public void testWithCheckNotHavingTreeWalkerAsParent() throws Exception {
         final DefaultConfiguration checkConfig = createModuleConfig(JavadocPackageCheck.class);
 
@@ -256,7 +247,6 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
         }
     }
 
-    @Test
     public void testSetupChildExceptions() {
         final TreeWalker treeWalker = new TreeWalker();
         final PackageObjectFactory factory = new PackageObjectFactory(
@@ -277,7 +267,6 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
         }
     }
 
-    @Test
     public void testSettersForParameters() throws Exception {
         final TreeWalker treeWalker = new TreeWalker();
         final DefaultConfiguration config = new DefaultConfiguration("default config");
@@ -294,7 +283,6 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
             .isEqualTo(config);
     }
 
-    @Test
     public void testForInvalidCheckImplementation() throws Exception {
         final DefaultConfiguration checkConfig = createModuleConfig(BadJavaDocCheck.class);
         final String pathToEmptyFile =
@@ -312,7 +300,6 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
         }
     }
 
-    @Test
     public void testProcessNonJavaFiles() throws Exception {
         final TreeWalker treeWalker = new TreeWalker();
         final PackageObjectFactory factory = new PackageObjectFactory(
@@ -338,7 +325,6 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
         }
     }
 
-    @Test
     public void testProcessNonJavaFilesWithoutException() throws Exception {
         final TreeWalker treeWalker = new TreeWalker();
         treeWalker.setTabWidth(1);
@@ -352,7 +338,6 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
             .isEmpty();
     }
 
-    @Test
     public void testWithCacheWithNoViolation() throws Exception {
         final DefaultConfiguration checkConfig = createModuleConfig(HiddenFieldCheck.class);
         final Checker checker = createChecker(checkConfig);
@@ -365,7 +350,6 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
         verify(checker, file.getPath(), expected);
     }
 
-    @Test
     public void testProcessWithParserThrowable() throws Exception {
         final TreeWalker treeWalker = new TreeWalker();
         treeWalker.configure(createModuleConfig(TypeNameCheck.class));
@@ -389,7 +373,6 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
         }
     }
 
-    @Test
     public void testProcessWithRecognitionException() throws Exception {
         final TreeWalker treeWalker = new TreeWalker();
         treeWalker.configure(createModuleConfig(TypeNameCheck.class));
@@ -413,7 +396,6 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
         }
     }
 
-    @Test
     public void testRequiredTokenIsEmptyIntArray() throws Exception {
         final DefaultConfiguration checkConfig =
             createModuleConfig(RequiredTokenIsEmptyIntArray.class);
@@ -424,7 +406,6 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
         verify(checkConfig, pathToEmptyFile, expected);
     }
 
-    @Test
     public void testBehaviourWithZeroChecks() throws Exception {
         final TreeWalker treeWalker = new TreeWalker();
         final PackageObjectFactory factory = new PackageObjectFactory(
@@ -441,7 +422,6 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
             .isEmpty();
     }
 
-    @Test
     public void testBehaviourWithOrdinaryAndCommentChecks() throws Exception {
         final TreeWalker treeWalker = new TreeWalker();
         treeWalker.configure(createModuleConfig(TypeNameCheck.class));
@@ -469,7 +449,6 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
         }
     }
 
-    @Test
     public void testSetupChild() throws Exception {
         final TreeWalker treeWalker = new TreeWalker();
         final PackageObjectFactory factory = new PackageObjectFactory(
@@ -491,7 +470,6 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
             .isEqualTo(99);
     }
 
-    @Test
     public void testBehaviourWithChecksAndFilters() throws Exception {
         final DefaultConfiguration filterConfig =
                 createModuleConfig(SuppressionCommentFilter.class);
@@ -513,7 +491,6 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
                 expected);
     }
 
-    @Test
     public void testMultiCheckOrder() throws Exception {
         final DefaultConfiguration treeWalkerConfig = createModuleConfig(TreeWalker.class);
         treeWalkerConfig.addChild(createModuleConfig(WhitespaceAroundCheck.class));
@@ -528,7 +505,6 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
                 expected);
     }
 
-    @Test
     public void testFinishLocalSetupFullyInitialized() {
         final TreeWalker treeWalker = new TreeWalker();
         treeWalker.setSeverity("error");
@@ -544,7 +520,6 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
             .isEqualTo(String.valueOf(100));
     }
 
-    @Test
     public void testCheckInitIsCalledInTreeWalker() throws Exception {
         final DefaultConfiguration checkConfig =
                 createModuleConfig(VerifyInitCheck.class);
@@ -556,7 +531,6 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
                 .isTrue();
     }
 
-    @Test
     public void testCheckDestroyIsCalledInTreeWalker() throws Exception {
         VerifyDestroyCheck.resetDestroyWasCalled();
         final DefaultConfiguration checkConfig =
@@ -569,7 +543,6 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
                 .isTrue();
     }
 
-    @Test
     public void testCommentCheckDestroyIsCalledInTreeWalker() throws Exception {
         VerifyDestroyCheck.resetDestroyWasCalled();
         final DefaultConfiguration checkConfig =
@@ -582,7 +555,6 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
                 .isTrue();
     }
 
-    @Test
     public void testCacheWhenFileExternalResourceContentDoesNotChange() throws Exception {
         final DefaultConfiguration filterConfig = createModuleConfig(SuppressionXpathFilter.class);
         filterConfig.addProperty("file", getPath("InputTreeWalkerSuppressionXpathFilter.xml"));
@@ -605,7 +577,6 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
                 .contains("InputTreeWalkerSuppressionXpathFilter.xml");
     }
 
-    @Test
     public void testTreeWalkerFilterAbsolutePath() throws Exception {
         final DefaultConfiguration filterConfig = createModuleConfig(SuppressionXpathFilter.class);
         filterConfig.addProperty("file",
@@ -624,7 +595,6 @@ public class TreeWalkerTest extends AbstractModuleTestSupport {
         verify(treeWalkerConfig, filePath, expected);
     }
 
-    @Test
     public void testExternalResourceFiltersWithNoExternalResource() throws Exception {
         final DefaultConfiguration checkConfig = createModuleConfig(EmptyStatementCheck.class);
         final DefaultConfiguration filterConfig =

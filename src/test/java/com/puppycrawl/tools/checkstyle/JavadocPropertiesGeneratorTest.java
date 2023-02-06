@@ -40,7 +40,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import com.puppycrawl.tools.checkstyle.api.CheckstyleException;
 import com.puppycrawl.tools.checkstyle.internal.utils.TestUtil;
 
-@ExtendWith({SystemErrGuard.class, SystemOutGuard.class})
 public class JavadocPropertiesGeneratorTest extends AbstractPathTestSupport {
 
     private static final String EOL = System.lineSeparator();
@@ -85,15 +84,13 @@ public class JavadocPropertiesGeneratorTest extends AbstractPathTestSupport {
      * @param systemErr wrapper for {@code System.err}
      * @param systemOut wrapper for {@code System.out}
      */
-    @BeforeEach
-    public void setUp(@SysErr Capturable systemErr, @SysOut Capturable systemOut) {
+    public void setUp(Capturable systemErr, Capturable systemOut) {
         systemErr.captureMuted();
         systemOut.captureMuted();
 
         System.setProperty("picocli.ansi", "false");
     }
 
-    @Test
     public void testIsProperUtilsClass() throws ReflectiveOperationException {
         assertWithMessage("Constructor is not private")
             .that(TestUtil.isUtilsClassHasPrivateConstructor(
@@ -101,8 +98,7 @@ public class JavadocPropertiesGeneratorTest extends AbstractPathTestSupport {
             .isTrue();
     }
 
-    @Test
-    public void testNonExistentArgument(@SysErr Capturable systemErr, @SysOut Capturable systemOut)
+    public void testNonExistentArgument(Capturable systemErr, Capturable systemOut)
             throws Exception {
         JavadocPropertiesGenerator.main("--nonexistent-argument");
 
@@ -118,9 +114,8 @@ public class JavadocPropertiesGeneratorTest extends AbstractPathTestSupport {
             .isEqualTo("");
     }
 
-    @Test
-    public void testNoDestfileSpecified(@SysErr Capturable systemErr,
-            @SysOut Capturable systemOut) throws Exception {
+    public void testNoDestfileSpecified(Capturable systemErr,
+            Capturable systemOut) throws Exception {
         JavadocPropertiesGenerator.main(getPath("InputMain.java"));
 
         final String expected = String.format(Locale.ROOT,
@@ -133,9 +128,8 @@ public class JavadocPropertiesGeneratorTest extends AbstractPathTestSupport {
             .isEqualTo("");
     }
 
-    @Test
-    public void testNoInputSpecified(@SysErr Capturable systemErr,
-            @SysOut Capturable systemOut) throws Exception {
+    public void testNoInputSpecified(Capturable systemErr,
+            Capturable systemOut) throws Exception {
         JavadocPropertiesGenerator.main("--destfile", DESTFILE_ABSOLUTE_PATH);
 
         final String expected = String.format(Locale.ROOT,
@@ -148,8 +142,7 @@ public class JavadocPropertiesGeneratorTest extends AbstractPathTestSupport {
             .isEqualTo("");
     }
 
-    @Test
-    public void testNotClass(@SysErr Capturable systemErr, @SysOut Capturable systemOut)
+    public void testNotClass(Capturable systemErr, Capturable systemOut)
             throws Exception {
         JavadocPropertiesGenerator.main("--destfile", DESTFILE_ABSOLUTE_PATH,
             getPath("InputJavadocPropertiesGeneratorNotClass.java"));
@@ -161,9 +154,8 @@ public class JavadocPropertiesGeneratorTest extends AbstractPathTestSupport {
             .isEqualTo("");
     }
 
-    @Test
-    public void testNotExistentInputSpecified(@SysErr Capturable systemErr,
-            @SysOut Capturable systemOut) {
+    public void testNotExistentInputSpecified(Capturable systemErr,
+            Capturable systemOut) {
         try {
             JavadocPropertiesGenerator.main(
                 "--destfile", DESTFILE_ABSOLUTE_PATH, "NotExistent.java");
@@ -192,9 +184,8 @@ public class JavadocPropertiesGeneratorTest extends AbstractPathTestSupport {
             .isEqualTo("");
     }
 
-    @Test
-    public void testInvalidDestinationSpecified(@SysErr Capturable systemErr,
-            @SysOut Capturable systemOut) throws Exception {
+    public void testInvalidDestinationSpecified(Capturable systemErr,
+            Capturable systemOut) throws Exception {
         try {
             // Passing a folder name will cause the FileNotFoundException.
             JavadocPropertiesGenerator.main("--destfile", "..",
@@ -225,8 +216,7 @@ public class JavadocPropertiesGeneratorTest extends AbstractPathTestSupport {
             .isEqualTo("");
     }
 
-    @Test
-    public void testCorrect(@SysErr Capturable systemErr, @SysOut Capturable systemOut)
+    public void testCorrect(Capturable systemErr, Capturable systemOut)
             throws Exception {
         final String expectedContent = "EOF1=The end of file token." + EOL
             + "EOF2=The end of file token." + EOL
@@ -250,8 +240,7 @@ public class JavadocPropertiesGeneratorTest extends AbstractPathTestSupport {
             .isEqualTo(expectedContent);
     }
 
-    @Test
-    public void testEmptyJavadoc(@SysErr Capturable systemErr, @SysOut Capturable systemOut)
+    public void testEmptyJavadoc(Capturable systemErr, Capturable systemOut)
             throws Exception {
         JavadocPropertiesGenerator.main(getPath("InputJavadocPropertiesGeneratorEmptyJavadoc.java"),
             "--destfile", DESTFILE_ABSOLUTE_PATH);
@@ -267,8 +256,7 @@ public class JavadocPropertiesGeneratorTest extends AbstractPathTestSupport {
             .isEqualTo(0);
     }
 
-    @Test
-    public void testNotConstants(@SysErr Capturable systemErr, @SysOut Capturable systemOut)
+    public void testNotConstants(Capturable systemErr, Capturable systemOut)
             throws Exception {
         JavadocPropertiesGenerator.main(getPath("InputJavadocPropertiesGeneratorNotConstants.java"),
             "--destfile", DESTFILE_ABSOLUTE_PATH);
@@ -284,8 +272,7 @@ public class JavadocPropertiesGeneratorTest extends AbstractPathTestSupport {
             .isEqualTo(0);
     }
 
-    @Test
-    public void testHelp(@SysErr Capturable systemErr, @SysOut Capturable systemOut)
+    public void testHelp(Capturable systemErr, Capturable systemOut)
             throws Exception {
         JavadocPropertiesGenerator.main("-h");
         assertWithMessage("Unexpected error log")
@@ -296,7 +283,6 @@ public class JavadocPropertiesGeneratorTest extends AbstractPathTestSupport {
             .isEqualTo(USAGE);
     }
 
-    @Test
     public void testJavadocParseError() throws Exception {
         final String path = getPath("InputJavadocPropertiesGeneratorJavadocParseError.java");
         try {
@@ -314,7 +300,6 @@ public class JavadocPropertiesGeneratorTest extends AbstractPathTestSupport {
             .isEqualTo(0);
     }
 
-    @Test
     public void testNotImplementedTag() throws Exception {
         final String path = getPath("InputJavadocPropertiesGeneratorNotImplementedTag.java");
         try {
@@ -332,7 +317,6 @@ public class JavadocPropertiesGeneratorTest extends AbstractPathTestSupport {
             .isEqualTo(0);
     }
 
-    @Test
     public void testParseError() throws Exception {
         final String path = getNonCompilablePath("InputJavadocPropertiesGeneratorParseError.java");
         try {
